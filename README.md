@@ -5,13 +5,13 @@ Fazer o download do [Anaconda](https://www.anaconda.com/download/#linux)
 Criar um ambiente no Anaconda
 
 ```sh
-$ conda create -n meuAmbiente
+$ conda create -n ambienteIA
 ```
 
 Uma vez criado o ambiente, use o comando
 
 ```sh
-$ source activate meuAmbiente
+$ conda activate ambienteIA
 ```
 
 Ao acessar o ambiente, instale os seguintes pacotes nele
