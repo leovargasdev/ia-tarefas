@@ -18,7 +18,7 @@ Ao acessar o ambiente, instale os seguintes pacotes nele
 $ conda install numpy pandas
 ```
 
-##Compilação e execução
+## Compilação e execução
 Pode-se executar os arquivos de duas maneiras
 
 ### Terminal
@@ -42,7 +42,7 @@ $ jupyter notebook
 
 Por padrão o jupyter deve rodar na porta 8888 do localhost.
 
-##Descrição das Tarefas
+## Descrição das Tarefas
 
 ### Tarefa 1:
 Implementação de um neurônio, sendo um o mesmo com uma carga de 4 entradas.
