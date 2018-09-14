@@ -5,9 +5,6 @@ import numpy as np
 def sigmoid(x): # Calculo do sigmóide
     return 1/(1+np.exp(-x))
 
-def sigmoid_prime(x): # Derivada da função sigmóide
-    return sigmoid(x) * (1 - sigmoid(x))
-
 x = np.array([0.5, 0.1, -0.2])
 target = 0.6
 learnrate = 0.5
@@ -21,16 +18,16 @@ out_camada_1 = sigmoid(in_camada_1)
 
 in_camada_2 = np.dot(out_camada_1, pesos_camada_2)
 out_camada_2 = sigmoid(in_camada_2)
-
 error = (target - out_camada_2)
 
-error_term_fase_1 = error * sigmoid_prime(out_camada_2)
+error_term_fase_1 = error * out_camada_2 * (1 - out_camada_2)
 
-error_term_fase_2 = np.dot(error_term_fase_1, pesos_camada_2) * sigmoid_prime(out_camada_1)
+# ook
+error_term_fase_2 = np.dot(error_term_fase_1, pesos_camada_2) * out_camada_1 * (1 - out_camada_1)
 
 delta_fase_1 = learnrate * error_term_fase_1 * out_camada_1
 
-delta_fase_2 = learnrate * error_term_fase_2 * out_camada_2
+delta_fase_2 = learnrate * error_term_fase_2 * x[:, None]
 
 print('Change in weights for hidden layer to output layer:')
 print(delta_fase_1)
