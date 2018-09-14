@@ -54,3 +54,4 @@ Evolução da tarefa 1, fazendo com que o peso das entradas do neurônio seja at
 Implementação de uma rede 4x3x2, sendo uma rede com duas camadas, onde a 1º camada é composta por um neurônio de com 4 entradas e a 2ª camada um neurônio com 3 entradas. A carga da 1ª camada é dada de forma aleatória e a carga da 2ª camada é a saida da 1ª camada.
 
 ### Tarefa 4:
+Evolução da tarefa 3, nesse código terá uma rodada de atualização com backpropagation
