@@ -3,10 +3,10 @@ import numpy as np
 
 class NeuralNetwork(object):
 
-    def sigmoid(x): # Calculo do sigmóide
+    def sigmoid(self, x): # Calculo do sigmóide
         return 1/(1+np.exp(-x))
 
-    def sigmoid_prime(x): # Derivada da função sigmóide
+    def sigmoid_prime(self, x): # Derivada da função sigmóide
         return x * (1 - x)
 
     def __init__(self, input_nodes, hidden_nodes, output_nodes, learning_rate):
@@ -20,6 +20,8 @@ class NeuralNetwork(object):
         self.weights_hidden_to_output = np.random.normal(0.0, self.hidden_nodes**-0.5, (self.hidden_nodes, self.output_nodes))
 
         self.lr = learning_rate
+
+        self.activation_function = lambda x : 1/(1+np.exp(-x))
 
     def train(self, features, targets):
 
@@ -35,26 +37,27 @@ class NeuralNetwork(object):
         self.update_weights(delta_weights_i_h, delta_weights_h_o, n_records)
 
 
-    def forward_pass_train(self, X):
+    def forward_pass_train(self, x):
 
-        entrada_camada_1 = np.dot(x, self.weights_input_to_hidden) # Gera entrada da camada Nº 1
-        saida_camada_1 = sigmoid(entrada_camada_1) # Sigmóide da camada Nº 1
+        hidden_inputs = np.dot(x, self.weights_input_to_hidden) # Gera entrada da camada Nº 1
+        hidden_outputs = self.sigmoid(hidden_inputs) # Sigmóide da camada Nº 1
 
-        entrada_camada_2 = np.dot(x, self.weights_hidden_to_output) # Gera entrada da camada Nº 2
-        saida_camada_2 = sigmoid(entrada_camada_2) # Sigmóide da camada Nº 2
+        final_inputs = np.dot(hidden_outputs, self.weights_hidden_to_output) # Gera entrada da camada Nº 2
+        final_outputs = self.sigmoid(final_inputs) # Sigmóide da camada Nº 2
 
-        return saida_camada_2, saida_camada_1
+        return final_outputs, hidden_outputs
 
     def backpropagation(self, final_outputs, hidden_outputs, X, y, delta_weights_i_h, delta_weights_h_o):
 
-        error_camada_1 = y - final_outputs
-        error_term_camada_1 = error_camada_1 * sigmoid_prime(final_outputs)
+        error = y - final_outputs
+        output_error_term = error
 
-        error_camada_2 = np.dot(error_term_camada_1, self.weights_hidden_to_output)
-        error_term_camada_2 = error_camada_2 * sigmoid_prime(hidden_outputs)
+        hidden_error = np.dot(output_error_term, self.weights_hidden_to_output.T)
 
-        delta_weights_i_h += error_term_camada_1 * saida_camada_2
-        delta_weights_h_o += error_term_camada_2 * x[:, None]
+        hidden_error_term = hidden_error * self.sigmoid_prime(hidden_outputs)
+
+        delta_weights_h_o += output_error_term * hidden_outputs[:,None]
+        delta_weights_i_h += hidden_error_term * X[:, None]
 
         return delta_weights_i_h, delta_weights_h_o
 
@@ -66,14 +69,11 @@ class NeuralNetwork(object):
 
     def run(self, features):
 
-        #### Implement the forward pass here ####
-        # TODO: Hidden layer - replace these values with the appropriate calculations.
-        hidden_inputs = None # signals into hidden layer
-        hidden_outputs = None # signals from hidden layer
+        hidden_inputs = np.dot(features, self.weights_input_to_hidden) # Gera entrada da camada Nº 1
+        hidden_outputs = self.sigmoid(hidden_inputs) # Sigmóide da camada Nº 1
 
-        # TODO: Output layer - Replace these values with the appropriate calculations.
-        final_inputs = None # signals into final output layer
-        final_outputs = None # signals from final output layer
+        final_inputs = np.dot(hidden_outputs, self.weights_hidden_to_output) # Gera entrada da camada Nº 2
+        final_outputs = final_inputs # Sigmóide da camada Nº 2
 
         return final_outputs
 
@@ -81,7 +81,7 @@ class NeuralNetwork(object):
 #########################################################
 # Set your hyperparameters here
 ##########################################################
-iterations = 100
+iterations = 1000
 learning_rate = 0.1
-hidden_nodes = 2
+hidden_nodes = 15
 output_nodes = 1
