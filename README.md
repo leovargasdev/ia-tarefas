@@ -10,7 +10,7 @@ $ conda create -n ambienteIA
 
 Acessar o ambiente criado
 ```sh
-$ conda activate ambienteIA
+$ source activate ambienteIA
 ```
 
 Ao acessar o ambiente, instale os seguintes pacotes nele
